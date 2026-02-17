@@ -1,0 +1,3 @@
+<template>
+carte animal
+</template>
