@@ -1,3 +1,0 @@
-<template>
-    gestion espèce
-</template>
