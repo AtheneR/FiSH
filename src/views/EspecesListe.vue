@@ -136,7 +136,7 @@
         padding: 0;
         margin: 30px auto;
         display: grid;
-        grid-template-columns: repeat(5, 180px);
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
         gap: 40px;
         justify-content: center;
     }
