@@ -4,7 +4,7 @@ import EspecesListe from '../views/EspecesListe.vue'
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/especes-liste', component: EspecesListe },
+  { path: '/especes-liste/:id?', name: 'EspecesListe', component: EspecesListe}
 ]
 
 const router = createRouter({

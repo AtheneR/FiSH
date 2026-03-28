@@ -7,6 +7,7 @@
         <RouterLink to="/" class="logo">FiSH</RouterLink>
         <div class="liens">
             <RouterLink to="/">Accueil</RouterLink>
+            <RouterLink to="/especes-liste/0">Les especes</RouterLink>
         </div>
     </nav>
 </template>
