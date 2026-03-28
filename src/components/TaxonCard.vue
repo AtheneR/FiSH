@@ -11,7 +11,10 @@
     }
 
     function voirInfos() {
-        emit('info', props.taxon)
+        router.push({
+            name: 'EspeceInformations',
+            params: { id: props.taxon.AphiaID }
+        })
     }
 
     const backgroundColor = computed(() => {
@@ -33,7 +36,7 @@
     <p class="rank">{{ taxon.rank }}</p>
     <div class="actions">
       <button class="btn-info" @click.stop="voirInfos">
-        Infos
+        Informations
       </button>
       <slot name="explore"></slot>
     </div>
@@ -56,19 +59,20 @@
 
     .nom { 
         font-weight: bold; 
-        margin-bottom: 5px;
+        margin-top: 1px;
+        font-size: 1.15rem;
     }
 
     .rank {
         font-size: 0.85rem;
-        opacity: 0.7;
+        opacity: 0.9;
     }
 
     .actions {
         display: flex;
         flex-direction: column;
         gap: 8px;
-        margin-top: 10px;
+        margin-top: 5px;
     }
 
     .btn-explore {

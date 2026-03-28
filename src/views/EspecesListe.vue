@@ -112,7 +112,7 @@
                 <TaxonCard :taxon="taxon">
                     <template #explore v-if="taxon.hasChildren && taxon.rank !== 'Species'">
                         <button class="btn-explore" @click="voirEnfants(taxon)">
-                            Explorer
+                            Voir les enfants
                         </button>
                     </template>
                 </TaxonCard>

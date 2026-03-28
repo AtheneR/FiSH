@@ -9,7 +9,7 @@
         <br><p>
             Consultez la liste des animaux :
             <br>
-            <RouterLink to="/especes-liste" class="link-button">Voir les espèces</RouterLink>
+            <RouterLink to="/especes-liste/0" class="link-button">Voir les espèces</RouterLink>
         </p>
     </main>
 </template>
