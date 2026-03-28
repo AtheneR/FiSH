@@ -69,16 +69,6 @@
             }
         }
 
-        onMounted(() => {
-            const id = Number(route.params.id || 0)
-            chargerTaxon(id)
-        })
-
-        watch(
-            () => route.params.id,
-            (newId) => {chargerTaxon(Number(newId || 0))}
-        )
-
         taxa.value = await Promise.all(
             taxonBruts.map(async (taxon) => {
                 if (taxon.rank === 'Species') {
@@ -97,6 +87,16 @@
         )
         loading.value = false
     }
+
+    onMounted(() => {
+        const id = Number(route.params.id || 0)
+        chargerTaxon(id)
+    })
+
+    watch(
+        () => route.params.id,
+        (newId) => {chargerTaxon(Number(newId || 0))}
+    )
 </script>
 
 <template>
