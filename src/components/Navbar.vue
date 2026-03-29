@@ -7,7 +7,8 @@
         <RouterLink to="/" class="logo">FiSH</RouterLink>
         <div class="liens">
             <RouterLink to="/">Accueil</RouterLink>
-            <RouterLink to="/especes-liste/0">Les espèces</RouterLink>
+            <RouterLink to="/especes-liste/0">Les taxons</RouterLink>
+            <RouterLink to="/recherche/">Recherche d'un taxon</RouterLink>
             <RouterLink to="/mes-favoris/">Mes favoris</RouterLink>
             <RouterLink to="/informations/">Informations</RouterLink>
         </div>
