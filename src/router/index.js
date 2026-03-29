@@ -14,7 +14,7 @@ const routes = [
   { path: '/mes-favoris/', name: 'MesFavoris', component: MesFavoris},
   { path: '/informations/', name: 'Informations', component: Informations},
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
-  { path: '/recherche/', name: 'RechercheTaxon', component: RechercheTaxon }
+  { path: '/recherche-taxon/', name: 'RechercheTaxon', component: RechercheTaxon }
 ]
 
 const router = createRouter({

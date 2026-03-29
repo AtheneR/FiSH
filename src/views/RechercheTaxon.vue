@@ -23,7 +23,7 @@
             try {
                 const { data } = await axios.get(
                     `https://www.marinespecies.org/rest/AjaxAphiaRecordsByNamePart/${newValue}`,
-                    { params: { max_matches: 20 } }
+                    { params: { max_matches: 50 } }
                 )
                 const nettoye = Array.isArray(data) ? data.map(r => ({AphiaID: r.id, scientificname: r.displayname, authority: r.authority})) : []
                 const detaille = await Promise.all(
