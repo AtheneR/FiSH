@@ -1,3 +1,9 @@
+<script setup>
+    defineProps({
+        animal: Object
+    })
+</script>
+
 <template>
     <div class="animal-card">
         <h3>{{ animal.scientificname }}</h3>
@@ -7,12 +13,6 @@
         </router-link>
     </div>
 </template>
-
-<script setup>
-    defineProps({
-        animal: Object
-    })
-</script>
 
 <style scoped>
     .animal-card {

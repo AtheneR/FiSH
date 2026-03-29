@@ -3,6 +3,7 @@
     import { useRoute } from 'vue-router'
     import { computed } from 'vue'
     import axios from 'axios'
+    import { useFavoritesStore } from '../stores/favorisStore'
 
     const route = useRoute()
     const taxon = ref(null)
@@ -12,6 +13,8 @@
     const vernaculars = ref([])
     const sources = ref([])
     const synonyms = ref([])
+    const enfants = ref([]);
+    const favorisStore = useFavoritesStore()
 
     async function recuperationTaxon(id) {
         loading.value = true
@@ -22,26 +25,33 @@
                 `https://www.marinespecies.org/rest/AphiaRecordByAphiaID/${id}`
             )
             taxon.value = data
+            
+            if (taxon.value.rank.toLowerCase() === 'species') {
+                const resultatDistribution = await axios.get(
+                    `https://www.marinespecies.org/rest/AphiaDistributionsByAphiaID/${id}`
+                );
+                distributions.value = resultatDistribution.data;
+            } else {
+                const resultatEnfants = await axios.get(
+                    `https://www.marinespecies.org/rest/AphiaChildrenByAphiaID/${id}?marine_only=true&extant_only=true`
+                );
+                enfants.value = resultatEnfants.data;
+            }
 
-            const distRes = await axios.get(
-                `https://www.marinespecies.org/rest/AphiaDistributionsByAphiaID/${id}`
-            )
-            distributions.value = (distRes.data || []).filter(d => d.locality && d.locality.trim() !== '')
-
-            const vernRes = await axios.get(
+            const resultatNoms = await axios.get(
                 `https://www.marinespecies.org/rest/AphiaVernacularsByAphiaID/${id}`
             )
-            vernaculars.value = (vernRes.data || []).filter(v => v.vernacular && v.vernacular.trim() !== '')
+            vernaculars.value = (resultatNoms.data || []).filter(v => v.vernacular && v.vernacular.trim() !== '')
 
-            const srcRes = await axios.get(
+            const resultatSources = await axios.get(
                 `https://www.marinespecies.org/rest/AphiaSourcesByAphiaID/${id}`
             )
-            sources.value = (srcRes.data || []).filter(s => (s.reference || s.fulltext) && (s.reference || s.fulltext).trim() !== '')
+            sources.value = (resultatSources.data || []).filter(s => (s.reference || s.fulltext) && (s.reference || s.fulltext).trim() !== '')
 
-            const synRes = await axios.get(
+            const resultatSynonyms = await axios.get(
                 `https://www.marinespecies.org/rest/AphiaSynonymsByAphiaID/${id}`
             )
-            synonyms.value = (synRes.data || []).filter(s => s.scientificname && s.scientificname.trim() !== '')
+            synonyms.value = (resultatSynonyms.data || []).filter(s => s.scientificname && s.scientificname.trim() !== '')
         } catch (err) {
             error.value = err.message
             taxon.value = null
@@ -73,6 +83,10 @@
         if (rank.includes('species')) return '#ebfffb'
         return '#F5F5F5'
     })
+
+    const isFav = computed(() => {
+        return taxon.value ? favorisStore.isFavorite(taxon.value.AphiaID): false
+    })
 </script>
 
 <template>
@@ -80,7 +94,11 @@
         <div v-if="loading">Chargement...</div>
         <div v-else-if="error">{{ error }}</div>
         <div v-else-if="taxon">
-            <h1>{{ taxon.scientificname }}</h1>
+            <h1>
+                {{ taxon.scientificname }}
+                <span v-if="isFav">★</span>
+            </h1>
+
             <p v-if="taxon.authority" class="authority">
                 {{ taxon.authority }}
             </p>
@@ -119,6 +137,15 @@
                 <h2>Synonymes</h2>
                 <ul>
                     <li v-for="s in synonyms" :key="s.AphiaID">{{ s.scientificname }} <span v-if="s.authority">({{ s.authority }})</span></li>
+                </ul>
+            </div>
+
+            <div class="bloc" :style="{ backgroundColor: backgroundColor }" v-if="enfants.length">
+                <h2>Enfants taxonomiques</h2>
+                <ul>
+                    <li v-for="enfant in enfants" :key="enfant.AphiaID">
+                        {{ enfant.scientificname }} <span v-if="enfant.rank">({{ enfant.rank }})</span>
+                    </li>
                 </ul>
             </div>
 

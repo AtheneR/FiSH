@@ -60,9 +60,7 @@
             currentTaxonName.value = 'Biota'
         } else {
             try {
-                const response = await axios.get(
-                    `https://www.marinespecies.org/rest/AphiaRecordByAphiaID/${id}`
-                )
+                const response = await axios.get(`https://www.marinespecies.org/rest/AphiaRecordByAphiaID/${id}`)
                 currentTaxonName.value = response.data.scientificname || 'Taxon inconnu'
             } catch {
                 currentTaxonName.value = 'Taxon inconnu'
@@ -75,9 +73,7 @@
                     return { ...taxon, hasChildren: false }
                 }
                 try {
-                    const response = await axios.get(
-                        `https://www.marinespecies.org/rest/AphiaChildrenByAphiaID/${taxon.AphiaID}?offset=1`
-                    )
+                    const response = await axios.get(`https://www.marinespecies.org/rest/AphiaChildrenByAphiaID/${taxon.AphiaID}?offset=1`)
                     const data = response.data
                     return { ...taxon, hasChildren: Array.isArray(data) && data.length > 0 }
                 } catch {
@@ -121,7 +117,7 @@
     </main>
 </template>
 
-<style scoped>
+<style>
     .arbre-taxon {
         padding: 1rem;
     }
@@ -146,5 +142,19 @@
         margin-top: 50px;
         font-size: 1.2rem;
         color: #666;
+    }
+
+    .btn-fav {
+        border-radius: 10px;
+        border: 1px solid #ff5500;
+        background: white;
+        color: #ff5500;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    .btn-fav.actif {
+        background: #ff5500;
+        color: white;
     }
 </style>
