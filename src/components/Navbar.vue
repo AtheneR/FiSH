@@ -9,6 +9,7 @@
             <RouterLink to="/">Accueil</RouterLink>
             <RouterLink to="/especes-liste/0">Les espèces</RouterLink>
             <RouterLink to="/mes-favoris/">Mes favoris</RouterLink>
+            <RouterLink to="/informations/">Informations</RouterLink>
         </div>
     </nav>
 </template>
