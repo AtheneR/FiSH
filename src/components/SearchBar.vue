@@ -1,3 +1,5 @@
+<!-- cet élément est la barre de recherche qui va être notamment mise dans la page qui liste les taxons préférés de l'utilisateur -->
+
 <script setup>
     const model = defineModel()
 </script>

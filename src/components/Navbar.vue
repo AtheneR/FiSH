@@ -1,3 +1,5 @@
+<!-- cette page représente la barre de navigation en haut du site -->
+
 <script setup>
     import { RouterLink } from "vue-router";
 </script>

@@ -1,3 +1,10 @@
+<!-- cette page affiche l'arbre phylogénétique de la biote marine -->
+<!-- la page affiche des card de taxon, si on appuie sur le bouton informations on va avoir accès à ses informations en passant sur sa carte EspeceInformations -->
+<!-- si on appuie sur le bouton voir les enfants, la page va recharger cette page mais va récupérer cette fois les enfants du taxon qu'on a choisi d'explorer -->
+<!-- c'est donc une forme de navigation parmi les espèces -->
+<!-- cette page est très inspirée de la page disponible sur le site WoRMS : https://www.marinespecies.org/aphia.php?p=browser&id[]=2#focus -->
+<!-- il n'était pas possible d'afficher directement tous les éléments, car il y en a plusieurs centaines de milliers -->
+
 <script setup>
     import { ref, watch, onMounted } from 'vue'
     import { useRoute, useRouter } from 'vue-router'
@@ -18,7 +25,6 @@
                 console.warn('Réponse inattendue :', data)
                 return []
             }
-
             return data.map(item => ({
                 AphiaID: item.AphiaID,
                 scientificname: item.scientificname,
@@ -39,8 +45,8 @@
         loading.value = true
         error.value = null
         let taxonBruts = []
-        // il n'y a pas d'élément 0, qui correspond à la biote, la racine est donc simulée avec les premiers éléments
-        // approche inspirée de la page https://www.marinespecies.org/aphia.php?p=browser&id[]=2#focus
+        // il n'y a pas de taxon d'id 0, qui correspond à la biote, la racine est donc simulée avec les premiers éléments
+        // cette approche est inspirée de la page https://www.marinespecies.org/aphia.php?p=browser&id[]=2#focus
         if (id === 0) {
             taxonBruts = [
                 { AphiaID: 2, scientificname: 'Animalia', rank: 'Kingdom' },

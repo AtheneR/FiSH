@@ -1,3 +1,5 @@
+// cette page fait la gestion des taxons favoris de l'utilisateur
+
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 

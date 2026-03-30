@@ -1,3 +1,7 @@
+<!-- cette page sert à cherche un taxon spécifique -->
+<!-- c'est particulièrement utile car cela n'est pas possible dans l'affichage de la liste à cause de la quantité d'éléments qui est en centaines de milliers -->
+<!-- pour la recherche, j'utilise une API disponible qui va permettre de mettre en place la recherche d'un taxon avec seuleent une partie de son nom scientifique -->
+
 <script setup>
     import { ref, watch } from 'vue'
     import axios from 'axios'
@@ -10,6 +14,38 @@
     const error = ref(null)
     const router = useRouter()
     let timeout = null
+
+    async function recuperationDetailsEnBatch(arrayTaxon, tailleBatch = 5) {
+        const resultats = []
+        for (let i = 0; i < arrayTaxon.length; i += tailleBatch) {
+            const batch = arrayTaxon.slice(i, i + tailleBatch)
+            const batchResultats = await Promise.all(
+                batch.map(async taxon => {
+                    try {
+                        const { data: detail } = await axios.get(`https://www.marinespecies.org/rest/AphiaRecordByAphiaID/${taxon.AphiaID}`)
+                        if (detail.rank === 'Species') {
+                            return {
+                                ...taxon,
+                                rank: detail.rank || '',
+                                hasChildren: false
+                            }
+                        }
+                        // on regarde juste s'il y a au moins un enfant
+                        const { data: children } = await axios.get(`https://www.marinespecies.org/rest/AphiaChildrenByAphiaID/${taxon.AphiaID}?offset=1`)
+                        return {
+                            ...taxon,
+                            rank: detail.rank || '',
+                            hasChildren: Array.isArray(children) && children.length > 0
+                        }
+                    } catch {
+                        return { ...taxon, rank: '', hasChildren: false }
+                    }
+                })
+            )
+            resultats.push(...batchResultats)
+        }
+        return resultats
+    }
 
     watch(search, (newValue) => {
         clearTimeout(timeout)
@@ -25,22 +61,13 @@
                     `https://www.marinespecies.org/rest/AjaxAphiaRecordsByNamePart/${newValue}`,
                     { params: { max_matches: 50 } }
                 )
-                const nettoye = Array.isArray(data) ? data.map(r => ({AphiaID: r.id, scientificname: r.displayname, authority: r.authority})) : []
-                const detaille = await Promise.all(
-                    nettoye.map(async (taxon) => {
-                    try {
-                        const { data: detail } = await axios.get(`https://www.marinespecies.org/rest/AphiaRecordByAphiaID/${taxon.AphiaID}`)
-                        return {
-                            ...taxon,
-                            rank: detail.rank || '',
-                            hasChildren: detail.childcount > 0
-                        }
-                    } catch {
-                        return { ...taxon, rank: '', hasChildren: false }
-                    }
-                    })
-                )
-                taxa.value = detaille
+                const nettoye = Array.isArray(data)
+                    ? data.map(r => ({
+                        AphiaID: r.id,
+                        scientificname: r.displayname,
+                        authority: r.authority
+                    })): []
+                taxa.value = await recuperationDetailsEnBatch(nettoye, 5)
             } catch (err) {
                 console.error(err)
                 error.value = "Erreur lors de la recherche"
@@ -58,16 +85,19 @@
 <template>
     <main class="arbre-taxon">
         <h1>Recherche</h1>
+        <p class="centre">Entrez le nom scientifique d'un taxon (règne, ordre, espèce...) qui vous intéresse</p><br>
         <input v-model="search" type="text" placeholder="Exemple : Animalia..." class="recherche"/>
+        
         <div v-if="loading" class="centre">Chargement...</div>
         <div v-else-if="error">{{ error }}</div>
         <div v-else-if="search && taxa.length === 0" class="pas-d-enfant">
             Aucun résultat
         </div>
+        
         <ul class="liste" v-else>
             <li v-for="taxon in taxa" :key="taxon.AphiaID">
                 <TaxonCard :taxon="taxon">
-                    <template #explore>
+                    <template #explore v-if="taxon.hasChildren">
                         <button class="btn-explore" @click="voirEnfants(taxon)">
                             Voir les enfants
                         </button>

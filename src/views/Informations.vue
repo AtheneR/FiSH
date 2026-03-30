@@ -1,3 +1,6 @@
+<!-- cette page sert surtout à contextualiser ce qu'est un taxon, qui est un terme technique inconnu du public -->
+<!-- j'introduis aussi le fait que les informations proviennent du site WoRMS -->
+
 <template>
     <main class="informations">
         <h1>Informations sur WoRMS</h1>

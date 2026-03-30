@@ -1,3 +1,9 @@
+<!-- dans cette page, on affiche les taxons que l'on a ajouté à ses favoris -->
+<!-- n'importe quel taxon peut être ajouté à ses favoris, pas seulement les espèces -->
+<!-- il y a trois types de tri : par défaut, par ordre alphabétique et par rang -->
+<!-- le tri par rang range ensemble les éléments similaire, donc par exemple "Class" et "Subclass" seront regroupés ensemble, ce qui est le plus logique, notamment avec le code couleur présent -->
+<!-- on utilise également la barre de recherche pour afficher certains taxons spécifiques voulus -->
+
 <script setup>
     import { storeToRefs } from 'pinia'
     import { useFavoritesStore } from '../stores/favorisStore'
@@ -48,11 +54,9 @@
             <button :class="{ actif: modeTri === 'none' }" @click="modeTri = 'none'">
                 Aucun tri
             </button>
-
             <button :class="{ actif: modeTri === 'alpha' }" @click="modeTri = 'alpha'">
                 Tri alphabétique
             </button>
-
             <button :class="{ actif: modeTri === 'rank' }" @click="modeTri = 'rank'">
                 Par catégorie
             </button>

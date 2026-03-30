@@ -1,3 +1,5 @@
+<!-- cet élément affiche une carte d'un élément pour afficher son résumé et qui permet d'accéder à ses détails, de voir ses enfants s'il en a et d'ajouter le taxon aux favoris -->
+
 <script setup>
     import { computed } from 'vue'
     import { useRouter } from 'vue-router'

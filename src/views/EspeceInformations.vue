@@ -1,3 +1,7 @@
+<!-- cette page affiche les détails d'un taxon choisi -->
+<!-- comme les informations sont très dispersés, il y a plusieurs appels à différentes api pour regrouper les informations disponibles dans plusieurs API différentes -->
+<!-- toutes les API utilisées ont été trouvée sur ce site : https://www.marinespecies.org/rest/ -->
+
 <script setup>
     import { ref, onMounted, watch } from 'vue'
     import { useRoute } from 'vue-router'
@@ -21,36 +25,23 @@
         error.value = null
 
         try {
-            const { data } = await axios.get(
-                `https://www.marinespecies.org/rest/AphiaRecordByAphiaID/${id}`
-            )
+            const { data } = await axios.get(`https://www.marinespecies.org/rest/AphiaRecordByAphiaID/${id}`)
             taxon.value = data
-            
             if (taxon.value.rank.toLowerCase() === 'species') {
-                const resultatDistribution = await axios.get(
-                    `https://www.marinespecies.org/rest/AphiaDistributionsByAphiaID/${id}`
-                );
+                const resultatDistribution = await axios.get(`https://www.marinespecies.org/rest/AphiaDistributionsByAphiaID/${id}`);
                 distributions.value = resultatDistribution.data;
             } else {
-                const resultatEnfants = await axios.get(
-                    `https://www.marinespecies.org/rest/AphiaChildrenByAphiaID/${id}?marine_only=true&extant_only=true`
-                );
+                const resultatEnfants = await axios.get(`https://www.marinespecies.org/rest/AphiaChildrenByAphiaID/${id}?marine_only=true&extant_only=true`);
                 enfants.value = resultatEnfants.data;
             }
 
-            const resultatNoms = await axios.get(
-                `https://www.marinespecies.org/rest/AphiaVernacularsByAphiaID/${id}`
-            )
+            const resultatNoms = await axios.get(`https://www.marinespecies.org/rest/AphiaVernacularsByAphiaID/${id}`)
             vernaculars.value = (resultatNoms.data || []).filter(v => v.vernacular && v.vernacular.trim() !== '')
 
-            const resultatSources = await axios.get(
-                `https://www.marinespecies.org/rest/AphiaSourcesByAphiaID/${id}`
-            )
+            const resultatSources = await axios.get(`https://www.marinespecies.org/rest/AphiaSourcesByAphiaID/${id}`)
             sources.value = (resultatSources.data || []).filter(s => (s.reference || s.fulltext) && (s.reference || s.fulltext).trim() !== '')
 
-            const resultatSynonyms = await axios.get(
-                `https://www.marinespecies.org/rest/AphiaSynonymsByAphiaID/${id}`
-            )
+            const resultatSynonyms = await axios.get(`https://www.marinespecies.org/rest/AphiaSynonymsByAphiaID/${id}`)
             synonyms.value = (resultatSynonyms.data || []).filter(s => s.scientificname && s.scientificname.trim() !== '')
         } catch (err) {
             error.value = err.message
@@ -66,9 +57,7 @@
 
     watch(
         () => route.params.id,
-        (newId) => {
-            recuperationTaxon(newId)
-        }
+        (newId) => {recuperationTaxon(newId)}
     )
 
     const backgroundColor = computed(() => {
@@ -107,7 +96,9 @@
                 <p v-if="taxon.rank"><strong>Rang :</strong> {{ taxon.rank }}</p>
                 <p v-if="taxon.status"><strong>Statut :</strong> {{ taxon.status }}</p>
             </div>
-
+            
+            <!-- pour chaque bloc présent en-dessous, on ne va afficher l'information que si elle est présente -->
+            <!-- par exemple, une espèce n'a pas d'enfant, contrairement à un règne, donc on n'aura juste pas du tout le bloc des enfants -->
             <div class="bloc" :style="{ backgroundColor: backgroundColor }">
                 <h2>Classification</h2>
                 <p v-if="taxon.kingdom"><strong>Kingdom :</strong> {{ taxon.kingdom }}</p>

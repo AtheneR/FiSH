@@ -5,6 +5,7 @@ const apiClient = axios.create({
     timeout: 5000
 });
 
+// on récupère les détails d'un taxon avec l'id
 export const getAnimalByAphiaID = async (id) => {
     try {
         const response = await apiClient.get(`/AphiaRecordByAphiaID/${id}`)
@@ -15,6 +16,7 @@ export const getAnimalByAphiaID = async (id) => {
     }
 }
 
+// on récupère les détails d'un taxon avec le nom
 export const searchAnimalsByName = async (name) => {
     try {
         const response = await apiClient.get(`/AphiaRecordsByName/${name}`)
@@ -25,6 +27,7 @@ export const searchAnimalsByName = async (name) => {
     }
 }
 
+// on récupère les régions où on a vu un taxon
 export const getDistributionsByAphiaID = async (id) => {
     try {
         const response = await apiClient.get(`/AphiaDistributionsByAphiaID/${id}`)
