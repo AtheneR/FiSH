@@ -4,16 +4,14 @@
     import { computed } from 'vue'
     import { useRouter } from 'vue-router'
     import { useFavoritesStore } from '../stores/favorisStore'
-    
-    const favorisStore = useFavoritesStore()
-    const props = defineProps({taxon: Object})
-    const emit = defineEmits(['info'])
-    const router = useRouter()
-    const isFav = computed(() => favorisStore.isFavorite(props.taxon.AphiaID))
 
-    function explorer() {
-        router.push({ name: 'EspecesListe', params: { id: props.taxon.AphiaID } })
-    }
+    const favorisStore = useFavoritesStore()
+    const props = defineProps({ taxon: Object })
+    const router = useRouter()
+
+    const isFav = computed(() =>
+        favorisStore.isFavorite(props.taxon.AphiaID)
+    )
 
     function voirInfos() {
         router.push({
@@ -31,7 +29,7 @@
     }
 
     const backgroundColor = computed(() => {
-        const rank = props.taxon.rank.toLowerCase()
+        const rank = props.taxon.rank?.toLowerCase() || ''
         if (rank.includes('kingdom')) return '#E1F5FE'
         if (rank.includes('phylum')) return '#F3E5F5'
         if (rank.includes('class')) return '#E8F5E9'
@@ -45,7 +43,12 @@
 
 <template>
     <div class="box_taxon" :style="{ backgroundColor: backgroundColor }">
-        <p class="nom">{{ taxon.scientificname }}{{ isFav ? ' ★' : '' }}</p>
+        <p class="nom">
+            <slot name="title">
+                {{ taxon.scientificname }}
+            </slot>
+            {{ isFav ? ' ★' : '' }}
+        </p>
         <p class="rank">{{ taxon.rank }}</p>
         <div class="actions">
             <button class="btn-info" @click.stop="voirInfos">

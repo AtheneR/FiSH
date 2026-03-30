@@ -187,5 +187,8 @@
 
     .informations {
         opacity: 0.9;
+        margin-top:-40px;
+        margin-bottom:-20px;
+        margin-left:-30px;
     }
 </style>

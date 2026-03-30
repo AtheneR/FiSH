@@ -16,7 +16,7 @@ La première fonctionnalité est l'affichage de la liste des taxons, suivant un 
 
 Il y a un système de favoris : on peut ajouter un taxon (quel que soit son rang taxinomique) à ses favoris, et les retrouver dans un onglet dédié. Dans cet onglet, il y a notamment une barre de recherche qui permet de chercher un taxon ajoutés au favoris en fonction de son nom et un système de tri. On peut avoir l'affichage par défaut, qui est l'affichage chronologique de l'ajout par l'utilisateur du plus vieux au plus récent, le tri alphabétique et par catégorie.
 
-Il y a une page de recherche qui permet d'entrer un nom scientifique et qui permet de trouver le taxon correspondant. Cette page se base sur une API qui permet de récupérer en temps réel les taxons qui possèdent la chaîne de caractère entrée dans la barre de recherche. Je crée ainsi une barre de recherche qui permet de récupérer un taxon grâce à son nom scientifique.
+Il y a une page de recherche qui permet d'entrer un nom d'un taxon et qui permet de trouver le ou les taxons correspondants. Cette page se base sur une API qui permet de récupérer en temps réel les taxons qui possèdent la chaîne de caractère entrée dans la barre de recherche. Je crée ainsi une barre de recherche qui permet de récupérer un taxon grâce à son nom, scientifique ou commun.
 
 Finalement, j'ai ajouté une page d'informations pour expliquer les éléments importants, dont principalement la source des données et l'explication du terme de taxon.
 
@@ -36,7 +36,9 @@ Je voulais également un système pour indiquer simplement si un taxon est dans 
 
 J'ai également eu quelques soucis pour le tri en fonction de la catégorie (règne, ordre...) car je voulais classer tous les éléments similaires ensemble. Par exemple, il y a "Kingdom", "Superkingdom" ou d'autres éléments similaires mais que l'on peut regrouper comme étant des "Kingdom" donc j'ai passé du temps à chercher une manière de les regrouper ensemble.
 
-J'ai également fait quelques tests pour essayer de créer une barre de recherche qui permette d'entrer une localisation (comme on entre ici le nom scientifique d'un taxon) mais ce système était complexe à mettre en place, l'API appelait parfois pendant vraiment longtemps et les zones sont exclusivement en anglais et avec des termes très spécifiques, ce qui rendait l'utilisation assez complexe. Il y avait également trop d'éléments pour afficher simplement toutes les localisations possibles.
+J'ai eu des difficulté à mettre en place la barre de recherche des taxons pour le mode "Commun". En effet, l'API renvoie un ou plusieurs noms communs liés à un taxon. Ainsi, un taxon peut avoir aucun, un ou plusieurs nom commun, et ce en plusieurs langues. J'ai décidé de faire un tri en affichant seulement les noms communs qui sont liés à l'anglais ou en français, en priorisant ceux en français. J'ai mis beaucoup de temps à trouver comment récupérer efficacement ça, et à prioriser les élémenst en français puis prendre ceux en anglais.
+
+Finalement, j'ai également fait quelques tests pour essayer de créer une barre de recherche qui permette d'entrer une localisation (comme on entre ici le nom scientifique d'un taxon) mais ce système était complexe à mettre en place, l'API appelait parfois pendant vraiment longtemps et les zones sont exclusivement en anglais et avec des termes très spécifiques, ce qui rendait l'utilisation assez complexe. Il y avait également trop d'éléments pour afficher simplement toutes les localisations possibles.
 
 ## Installation et lancement
 
