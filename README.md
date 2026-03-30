@@ -18,6 +18,8 @@ Il y a un système de favoris : on peut ajouter un taxon (quel que soit son rang
 
 Il y a une page de recherche qui permet d'entrer un nom d'un taxon et qui permet de trouver le ou les taxons correspondants. Cette page se base sur une API qui permet de récupérer en temps réel les taxons qui possèdent la chaîne de caractère entrée dans la barre de recherche. Je crée ainsi une barre de recherche qui permet de récupérer un taxon grâce à son nom, scientifique ou commun.
 
+Pour optimiser les performances de l’application, j’ai mis en place un système de lazy loading au niveau des routes Concrètement, les différentes pages ne sont plus chargées au démarrage de l’application, mais seulement lorsqu’elles sont visitées par l’utilisateur, ce qui permet de réduire le temps de chargement initial, en particulier pour certaines pages plus lourdes comme la recherche de taxons qui font de nombreux appels à l’API.
+
 Finalement, j'ai ajouté une page d'informations pour expliquer les éléments importants, dont principalement la source des données et l'explication du terme de taxon.
 
 Voici quelques pages représentatives :

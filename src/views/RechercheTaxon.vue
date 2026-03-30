@@ -100,6 +100,11 @@
     function voirEnfants(taxon) {
         router.push({ name: 'EspecesListe', params: { id: taxon.AphiaID } })
     }
+
+    function majusculeDebutMot(text) {
+        if (!text) return '' 
+        return text.charAt(0).toUpperCase() + text.slice(1)
+    }
 </script>
 
 <template>
@@ -136,7 +141,7 @@
                 <TaxonCard :taxon="taxon">
                     <template #title class="nom">
                         <span v-if="modeRecherche === 'vernaculaire' && taxon.nomCommun">
-                            {{ taxon.nomCommun }}
+                            {{ majusculeDebutMot(taxon.nomCommun) }}
                         </span>
                         <span v-else>
                             {{ taxon.scientificname }}
@@ -161,6 +166,10 @@
         text-align: center;
     }
 
+    h1 {
+        text-align: center;
+    }
+
     .actions {
         display: flex;
         flex-direction: column;
@@ -178,6 +187,8 @@
         border-radius: 15px;
         border: 1px solid #ccc;
         width: 300px;
+        display: block;
+        margin: 0 auto;
     }
 
     .liste {
