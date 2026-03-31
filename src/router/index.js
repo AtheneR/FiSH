@@ -1,3 +1,5 @@
+// cette page est le router
+
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [

@@ -1,3 +1,5 @@
+<!-- cette page affiche un texte qui dit qu'il n'y a pas de page pour cette route quand la route entrée dans le navigateur n'existe pas -->
+
 <script setup>
 </script>
 

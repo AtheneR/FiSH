@@ -3,7 +3,7 @@
 ## Objectif du projet
 
 L’objectif de FiSH est de créer une interface pour montrer et rechercher des taxons marins à partir de différentes API du site WoRMS (World Register of Marine Species).
-Le projet permet aux utilisateurs :
+Le projet permet aux utilisateurs de :
 
 - rechercher un taxon par son nom scientifique
 - explorer l’arbre phylogénétique en allant de taxon en taxon en regardant ses enfants
@@ -42,9 +42,15 @@ J'ai eu des difficulté à mettre en place la barre de recherche des taxons pour
 
 Finalement, j'ai également fait quelques tests pour essayer de créer une barre de recherche qui permette d'entrer une localisation (comme on entre ici le nom scientifique d'un taxon) mais ce système était complexe à mettre en place, l'API appelait parfois pendant vraiment longtemps et les zones sont exclusivement en anglais et avec des termes très spécifiques, ce qui rendait l'utilisation assez complexe. Il y avait également trop d'éléments pour afficher simplement toutes les localisations possibles.
 
+## Limite
+
+Il y a une limite au projet : les appels API peuvent être un peu long, notamment pour la barre de recherche de taxon qui appelle l'API de WoRMS. Lors de mes tests, que j'ai réalisé à différents horaires, sur mon ordinateur et sur quelques uns de mes camarades, je n'ai jamais relevé des délais de chargement de plus de 5 secondes, ce qui m'a ammenée à penser que c'était des délais raisonnables. J'ai donc essayé d'optimiser le plus possible ce genre de souci, mais il peut avoir des délais de quelques secondes lors du chargement après certaines actions.
+
 ## Installation et lancement
 
-1. Cloner le dépôt
+1. Cloner le dépôt ou télécharger le fichier zippé
+
+Si vous choisissez de cloner le dépôt :
 
 ```bash
 git clone https://github.com/AtheneR/FiSH

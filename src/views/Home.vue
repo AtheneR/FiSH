@@ -1,3 +1,5 @@
+<!-- cette page affiche juste un message de bienvenue à l'utilisateur quand il arrive sur le site -->
+
 <script setup>
     import { RouterLink } from 'vue-router'
 </script>

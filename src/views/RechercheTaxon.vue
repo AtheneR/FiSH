@@ -66,6 +66,8 @@
             error.value = null
             try {
                 let data = []
+                // on appelle deux api différentes en fonction du mode de recherche choisi par l'utilisateur
+                // les données sont récupérées dans les mêmes noms de variable pour que la différence de code ne se fasse qu'ici
                 if (modeRecherche.value === 'scientifique') {
                     const res = await axios.get(
                         `https://www.marinespecies.org/rest/AjaxAphiaRecordsByNamePart/${newValue}`,
@@ -194,6 +196,11 @@
     .liste {
         list-style: none;
         padding: 0;
+        margin: 30px auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 40px;
+        justify-content: center;
     }
 
     .resultat {
@@ -230,5 +237,26 @@
 
     .commentaire{
         opacity: 0.9;
+    }
+
+    .pas-d-enfant {
+        text-align: center;
+        margin-top: 50px;
+        font-size: 1.2rem;
+        color: #666;
+    }
+
+    .btn-fav {
+        border-radius: 10px;
+        border: 1px solid #ff5500;
+        background: white;
+        color: #ff5500;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    .btn-fav.actif {
+        background: #ff5500;
+        color: white;
     }
 </style>
